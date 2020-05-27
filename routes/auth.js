@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const client = require('../config/db');
 
 router.post('/login', (req, res) => {
     // TODO: login user

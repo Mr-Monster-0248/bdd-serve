@@ -10,9 +10,14 @@
   },
   "keywords": [],
   "author": "",
+  "repository": {
+    "github": "https://github.com/Mr-Monster-0248/bdd-serve"
+  },
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "express": "^4.17.1"
-  }
+    "express": "^4.17.1",
+    "pg": "^8.2.1"
+  },
+  "devDependencies": {}
 }
