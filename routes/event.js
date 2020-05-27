@@ -3,7 +3,6 @@ const router = express.Router();
 const { isSignedIn, isAdmin } = require('../validations/signedIn');
 
 router.get('/', isAdmin, (req, res) => {
-    console.log(req.user);
     res.status(501).send();
 });
 
