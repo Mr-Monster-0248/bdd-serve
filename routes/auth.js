@@ -23,7 +23,7 @@ router.post('/login-admin', (req, res) => {
       if (dbRes.rows[0].password === req.body.password ) {
         const user = dbRes.rows[0];
 
-        const token = jwt.sign({id: user.patient_id, admin: true}, process.env.TOKEN_SECRET);
+        const token = jwt.sign({id: user.admin_id, admin: true}, process.env.TOKEN_SECRET);
         res.header('auth-token', token).send('user connected');
       } else {
         res.status(401).send('Email or password incorrect');
