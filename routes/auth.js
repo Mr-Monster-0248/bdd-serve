@@ -25,7 +25,7 @@ router.post('/login-admin', (req, res) => {
 
         const token = jwt.sign({id: user.admin_id, admin: true}, process.env.TOKEN_SECRET);
         console.log('admin logged in');
-        res.header('auth-token', token).send('user connected');
+        res.header('auth-token', token).send(token);
       } else {
         res.status(401).send('Email or password incorrect');
       }
@@ -55,7 +55,7 @@ router.post('/login', (req, res) => {
 
         const token = jwt.sign({id: user.patient_id, admin: false}, process.env.TOKEN_SECRET);
         console.log('user logged in');
-        res.header('auth-token', token).send('user connected');
+        res.header('auth-token', token).send(token);
       } else {
         res.status(401).send('Email or password incorrect');
       }
