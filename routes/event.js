@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { isSignedIn } = require('../validations/signedIn');
 
-router.get('/', (req, res) => {
-    // TODO: aget all events
+router.get('/', isSignedIn, (req, res) => {
+    console.log(req.user);
     res.status(501).send();
 });
 
