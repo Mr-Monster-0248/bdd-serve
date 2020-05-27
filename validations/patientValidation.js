@@ -13,7 +13,9 @@ module.exports.patientValidation = (data) => {
   const patientValid = new Joi.object({
     last_name: Joi.string().required(),
     first_name: Joi.string().required(),
-    date_of_birth: Joi.string().required(),
+    date_of_birth: Joi.string()
+      .pattern(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d$/)
+      .required(),
     address: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
