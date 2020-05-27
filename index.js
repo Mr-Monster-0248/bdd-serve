@@ -1,5 +1,6 @@
 const express = require('express');
-const Joi = require('@hapi/joi');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 app.use(express.json());

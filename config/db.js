@@ -1,6 +1,4 @@
 const { Client } = require('pg');
-const dotenv = require('dotenv');
-dotenv.config();
 
 const config = {
   user: process.env.PGUSER,
