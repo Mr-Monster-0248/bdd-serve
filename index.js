@@ -17,8 +17,8 @@ app.use('/auth', auth);
 const patient = require('./routes/patient');
 app.use('/patient', patient);
 
-const event = require('./routes/event');
-app.use('/event', event);
+const session = require('./routes/session');
+app.use('/session', session);
 
 // starting the server
 const PORT = process.env.PORT || 3000;

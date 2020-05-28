@@ -10,17 +10,17 @@
 | POST   | `/login-admin` | login with email and password for admin | auth-token |
 | GET    | `/logout`      | logout current user                     | boolean    |
 
-### Event gestion `/event`
+### Session management `/session`
 
-| method | path   | description          | response |
-| ------ | ------ | -------------------- | -------- |
-| GET    | `/`    | get all event        |          |
-| GET    | `/:id` | get a specific event |          |
-| POST   | `/add` | add a event          |          |
-| PUT    | `/:id` | update a event       |          |
-| DELETE | `/:id` | delete a event       |          |
+| method | path   | description            | response |
+| ------ | ------ | ---------------------- | -------- |
+| GET    | `/`    | get all session        |          |
+| GET    | `/:id` | get a specific session |          |
+| POST   | `/add` | add a session          | boolean  |
+| PUT    | `/:id` | update a session       |          |
+| DELETE | `/:id` | delete a session       |          |
 
-### Patient gestion `/patient`
+### Patient management `/patient`
 
 | method | path   | description            | response                |
 | ------ | ------ | ---------------------- | ----------------------- |
