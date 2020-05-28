@@ -12,13 +12,13 @@
 
 ### Session management `/session`
 
-| method | path   | description            | response |
-| ------ | ------ | ---------------------- | -------- |
-| GET    | `/`    | get all session        |          |
-| GET    | `/:id` | get a specific session |          |
-| POST   | `/add` | add a session          | boolean  |
-| PUT    | `/:id` | update a session       |          |
-| DELETE | `/:id` | delete a session       |          |
+| method | path   | description            | response                |
+| ------ | ------ | ---------------------- | ----------------------- |
+| GET    | `/`    | get all session        | array of session object |
+| GET    | `/:id` | get a specific session | session object          |
+| POST   | `/add` | add a session          | boolean                 |
+| PUT    | `/:id` | update a session       | boolean                 |
+| DELETE | `/:id` | delete a session       | boolean                 |
 
 ### Patient management `/patient`
 
