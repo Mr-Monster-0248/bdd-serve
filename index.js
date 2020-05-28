@@ -1,10 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 
 app.get('/', (_, res) => {
     res.send('This is the server side for the database project');
