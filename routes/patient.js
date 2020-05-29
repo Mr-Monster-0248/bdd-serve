@@ -7,7 +7,7 @@ const { patientValidation, patientIDValidation } = require('../validations/patie
 
 router.get('/', isAdmin, (req, res) => {
   const query = {
-    text: 'SELECT patient_id, last_name, first_name FROM patient'
+    text: 'SELECT patient_id, last_name, first_name, date_of_birth FROM patient'
   };
 
   client.query(query)
@@ -24,14 +24,14 @@ router.get('/:id', isAdmin, (req, res) => {
   if (error) return res.status(400).send(error);
 
   const query = {
-    text: 'SELECT patient_id, last_name, first_name FROM patient WHERE (patient_id = $1)',
+    text: 'SELECT patient_id, last_name, first_name, date_of_birth FROM patient WHERE (patient_id = $1)',
     values: [req.params.id]
   };
 
   client.query(query)
     .then(dbRes => {
       if (dbRes.rowCount === 0) return res.status(400).send('Wrong id');
-      res.send(dbRes.rows)
+      res.send(dbRes.rows[0])
     })
     .catch(err => {
       res.status(500).send(err);
