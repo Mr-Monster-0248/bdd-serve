@@ -11,7 +11,7 @@ module.exports.sessionIDValidation = (data) => {
 
 module.exports.sessionValidation = (data) => {
   const sessionValid = new Joi.object({
-    session_group: Joi.array().required(),
+    session_group: Joi.array().length(3).required(),
     date_time: Joi.string().required(),
     duration: Joi.string().required(),
   });
