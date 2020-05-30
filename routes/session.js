@@ -4,7 +4,18 @@ const client = require('../config/db');
 const { isSignedIn, isAdmin } = require('../validations/signedIn');
 const { sessionValidation, sessionIDValidation, sessionUpdateValidation } = require('../validations/sessionValidation');
 
-router.get('/', isAdmin, (req, res) => {
+async function getPatient(id) {
+  const query = {
+    text: 'SELECT patient_id, last_name, first_name, date_of_birth FROM patient WHERE (patient_id = $1)',
+    values: [id]
+  };
+
+  resp = await client.query(query)
+  if (resp.rowCount !== 0) return resp.rows[0]
+  else return {}
+}
+
+router.get('/', isAdmin, async (req, res) => {
   const query = {
     text: `SELECT
               session.session_id,
@@ -22,31 +33,41 @@ router.get('/', isAdmin, (req, res) => {
             INNER JOIN means_of_payment ON means_of_payment.payment_mode_id = payment.payment_mode_id_fk`,
   }
 
-  client.query(query)
-    .then(dbRes => {
-      const formatedData = dbRes.rows.map(el => {
-        return {
-          session_id: el.session_id,
-          patients: [
-            el.part_1,
-            el.part_2,
-            el.part_3,
-          ],
-          date_and_time: el.date_and_time,
-          duration: el.duration,
-          price: el.price,
-          mode: el.mode,
-          paid: el.paid,
-        }
+  try {
+    const dbRes = await client.query(query)
 
-      })
-      res.send(formatedData);
+
+    let formatedData = dbRes.rows.map(el => {
+      return {
+        session_id: el.session_id,
+        patients: [
+          el.part_1,
+          el.part_2,
+          el.part_3,
+        ],
+        date_and_time: el.date_and_time,
+        duration: el.duration,
+        price: el.price,
+        mode: el.mode,
+        paid: el.paid,
+      }
+
     })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send(err);
-    });
 
+    for(let i = 0; i < formatedData.length; i++) {
+      for (let j = 0; j < formatedData[i].patients.length; j++) {
+        if (formatedData[i].patients[j] != null) {
+          formatedData[i].patients[j] = await getPatient(formatedData[i].patients[j])
+        }
+      }
+    }
+
+    console.log(formatedData)
+    res.send(formatedData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
 });
 
 router.get('/:id', isSignedIn, (req, res) => {
