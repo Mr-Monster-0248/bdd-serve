@@ -19,7 +19,7 @@ router.get('/', isAdmin, (req, res) => {
             FROM session
             INNER JOIN session_group ON session.group_id_fk = session_group.group_id
             INNER JOIN payment ON payment.payment_id = session.payment_id_fk
-            INNER JOIN means_of_payment ON means_of_payment.payment_mode_id = payment.payment_mode_id`,
+            INNER JOIN means_of_payment ON means_of_payment.payment_mode_id = payment.payment_mode_id_fk`,
   }
 
   client.query(query)
@@ -67,7 +67,7 @@ router.get('/:id', isSignedIn, (req, res) => {
             FROM session
             INNER JOIN session_group ON session.group_id_fk = session_group.group_id
             INNER JOIN payment ON payment.payment_id = session.payment_id_fk
-            INNER JOIN means_of_payment ON means_of_payment.payment_mode_id = payment.payment_mode_id
+            INNER JOIN means_of_payment ON means_of_payment.payment_mode_id = payment.payment_mode_id_fk
             WHERE session.session_id = $1`,
     values: [req.params.id]
   }
@@ -109,7 +109,7 @@ router.post('/add', isAdmin, (req, res) => {
       req.body.session_group[0],
       req.body.session_group[1],
       req.body.session_group[2],
-      req.body.session_group.length * 49.99,
+      req.body.session_group.filter(_ => _ != null).length * 49.99,
       req.body.date_time,
       req.body.duration,
     ]
@@ -138,7 +138,7 @@ router.patch('/:id', (req, res) => {
       req.body.session_group[0],
       req.body.session_group[1],
       req.body.session_group[2],
-      req.body.session_group.length * 49.99,
+      req.body.session_group.filter(_ => _ != null).length * 49.99,
       req.body.mode,
       req.body.paid,
       req.body.date_time,
