@@ -12,20 +12,22 @@
 
 ### Session management `/session`
 
-| method | path   | description            | response                |
-| ------ | ------ | ---------------------- | ----------------------- |
-| GET    | `/`    | get all session        | array of session object |
-| GET    | `/:id` | get a specific session | session object          |
-| POST   | `/add` | add a session          | boolean                 |
+| method | path    | description              | response                |
+| ------ | ------- | ------------------------ | ----------------------- |
+| GET    | `/`     | get all session          | array of session object |
+| GET    | `/:id`  | get a specific session   | session object          |
+| GET    | `/self` | get all session for self | session object          |
+| POST   | `/add`  | add a session            | boolean                 |
 | PATCH  | `/:id` | update a session       | boolean                 |
-| DELETE | `/:id` | delete a session       | boolean                 |
+| DELETE | `/:id`  | delete a session         | boolean                 |
 
 ### Patient management `/patient`
 
-| method | path   | description            | response                |
-| ------ | ------ | ---------------------- | ----------------------- |
-| GET    | `/`    | get all patient        | array of patient object |
-| GET    | `/:id` | get a specific patient | patient object          |
-| POST   | `/add` | add a patient          | boolean                 |
+| method | path    | description              | response                |
+| ------ | ------- | ------------------------ | ----------------------- |
+| GET    | `/`     | get all patient          | array of patient object |
+| GET    | `/:id`  | get a specific patient   | patient object          |
+| GET    | `/self` | get a self for a patient | patient object          |
+| POST   | `/add`  | add a patient            | boolean                 |
 | PATCH  | `/:id` | update a patient       |                         |
-| DELETE | `/:id` | delete a patient       | boolean                 |
+| DELETE | `/:id`  | delete a patient         | boolean                 |

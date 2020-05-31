@@ -70,7 +70,58 @@ router.get('/', isAdmin, async (req, res) => {
   }
 });
 
-router.get('/:id', isSignedIn, (req, res) => {
+router.get('/self', isSignedIn, (req, res) => {
+  const query = {
+    text: `SELECT
+              session.session_id,
+              session_group.participant_1_id_fk   AS Part_1,
+              session_group.participant_2_id_fk   AS Part_2,
+              session_group.participant_3_id_fk   AS Part_3,
+              session.date_and_time,
+              session.duration,
+              payment.price,
+              means_of_payment.mode,
+              payment.paid
+            FROM session
+            INNER JOIN session_group ON session.group_id_fk = session_group.group_id
+            INNER JOIN payment ON payment.payment_id = session.payment_id_fk
+            INNER JOIN means_of_payment ON means_of_payment.payment_mode_id = payment.payment_mode_id_fk
+            WHERE (
+              session_group.participant_1_id_fk = $1
+              OR session_group.participant_2_id_fk = $1
+              OR session_group.participant_3_id_fk = $1
+            )`,
+    values: [req.user.id]
+  }
+
+  client.query(query)
+    .then(dbRes => {
+      if (dbRes.rowCount === 0) return res.status(400).send('Wrong id');
+      const formatedData = dbRes.rows.map(el => {
+        return {
+          session_id: el.session_id,
+          patients: [
+            el.part_1,
+            el.part_2,
+            el.part_3,
+          ],
+          date_and_time: el.date_and_time,
+          duration: el.duration,
+          price: el.price,
+          mode: el.mode,
+          paid: el.paid,
+        }
+
+      })
+      res.send(formatedData);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.get('/:id', isAdmin, (req, res) => {
   const { error } = sessionIDValidation(req.params.id);
   if (error) return res.status(400).send(error);
 
@@ -145,7 +196,7 @@ router.post('/add', isAdmin, (req, res) => {
     });
 });
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', isAdmin, (req, res) => {
   const { error } = sessionUpdateValidation(req.body);
   if (error) return res.status(400).send(error);
 
@@ -173,7 +224,7 @@ router.patch('/:id', (req, res) => {
       .catch(err => {
         res.status(500).send(err);
       });
-})
+});
 
 router.delete('/:id', isAdmin, (req, res) => {
     const query = {
@@ -188,6 +239,6 @@ router.delete('/:id', isAdmin, (req, res) => {
       .catch(err => {
         res.status(500).send(err);
       });
-})
+});
 
 module.exports = router;
