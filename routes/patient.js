@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const client = require('../config/db');
 
-const { isAdmin } = require('../validations/signedIn');
+const { isAdmin, isSignedIn } = require('../validations/signedIn');
 const { patientValidation, patientIDValidation } = require('../validations/patientValidation');
 
 router.get('/', isAdmin, (req, res) => {
@@ -13,6 +13,32 @@ router.get('/', isAdmin, (req, res) => {
   client.query(query)
     .then(dbRes => {
       res.send(dbRes.rows)
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    })
+});
+
+router.get('/self', isSignedIn, (req, res) => {
+  const query = {
+    text: `SELECT
+              patient_id,
+              last_name,
+              first_name,
+              date_of_birth,
+              address,
+              email,
+              gender,
+              age_category,
+              discovery_id_fk
+            FROM patient WHERE (patient_id = $1)`,
+    values: [req.user.id]
+  };
+
+  client.query(query)
+    .then(dbRes => {
+      if (dbRes.rowCount === 0) return res.status(400).send('Wrong id');
+      res.send(dbRes.rows[0])
     })
     .catch(err => {
       res.status(500).send(err);
@@ -81,7 +107,7 @@ router.post('/add', isAdmin, (req, res) => {
 router.put('/:id', (req, res) => {
     // TODO: update patient
     res.status(501).send();
-})
+});
 
 router.delete('/:id', isAdmin, (req, res) => {
   const { error } = patientIDValidation(req.params.id);
@@ -100,6 +126,6 @@ router.delete('/:id', isAdmin, (req, res) => {
     .catch(err => {
       res.status(500).send(err);
     })
-})
+});
 
 module.exports = router;
