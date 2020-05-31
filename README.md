@@ -17,7 +17,7 @@
 | GET    | `/`    | get all session        | array of session object |
 | GET    | `/:id` | get a specific session | session object          |
 | POST   | `/add` | add a session          | boolean                 |
-| PUT    | `/:id` | update a session       | boolean                 |
+| PATCH  | `/:id` | update a session       | boolean                 |
 | DELETE | `/:id` | delete a session       | boolean                 |
 
 ### Patient management `/patient`
@@ -27,5 +27,5 @@
 | GET    | `/`    | get all patient        | array of patient object |
 | GET    | `/:id` | get a specific patient | patient object          |
 | POST   | `/add` | add a patient          | boolean                 |
-| PUT    | `/:id` | update a patient       |                         |
+| PATCH  | `/:id` | update a patient       |                         |
 | DELETE | `/:id` | delete a patient       | boolean                 |
