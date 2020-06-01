@@ -7,7 +7,14 @@ const { patientValidation, patientIDValidation } = require('../validations/patie
 
 router.get('/', isAdmin, (req, res) => {
   const query = {
-    text: 'SELECT patient_id, last_name, first_name, date_of_birth FROM patient'
+    text: `SELECT
+              patient_id,
+              last_name,
+              first_name,
+              date_of_birth,
+              email,
+              address
+            FROM patient`,
   };
 
   client.query(query)
@@ -50,7 +57,14 @@ router.get('/:id', isAdmin, (req, res) => {
   if (error) return res.status(400).send(error);
 
   const query = {
-    text: 'SELECT patient_id, last_name, first_name, date_of_birth FROM patient WHERE (patient_id = $1)',
+    text: `SELECT
+              patient_id,
+              last_name,
+              first_name,
+              date_of_birth,
+              email,
+              address
+            FROM patient WHERE (patient_id = $1)`,
     values: [req.params.id]
   };
 
