@@ -5,7 +5,7 @@ const client = require('../config/db');
 const { isAdmin, isSignedIn } = require('../validations/signedIn');
 const { patientValidation, patientIDValidation } = require('../validations/patientValidation');
 
-router.get('/', isAdmin, (req, res) => {
+router.get('/', isSignedIn, (req, res) => {
   const query = {
     text: `SELECT
               patient_id,
@@ -13,7 +13,8 @@ router.get('/', isAdmin, (req, res) => {
               first_name,
               date_of_birth,
               email,
-              address
+              address,
+              gender
             FROM patient`,
   };
 
